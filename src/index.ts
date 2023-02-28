@@ -1,5 +1,9 @@
 import express from 'express';
 import {router} from './routes';
+import createConnection from './database'
+
+//createConnection();
+createConnection();
 
 const server = express();
 

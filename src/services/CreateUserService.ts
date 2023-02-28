@@ -1,16 +1,29 @@
+import {getRepository} from 'typeorm'
+import { User } from '../entities/User';
 
 interface ICreateUserRequest{
+    id: string,
     name: string,
-    email: string
+    email?: string
 }
 
 class CreateUserService{
-    execute({name, email} : ICreateUserRequest){
-        const data = [];
-
-        data.push({name, email});
-
-        return data;
+    async execute({id, name, email} : ICreateUserRequest){
+        
+        const user = await getRepository(User) 
+        .createQueryBuilder()
+        .insert()
+        .into(User)
+        .values(
+            {
+                id: id,
+                name: name,
+                email: email
+            }
+        )
+        .execute()
+    
+    return user.identifiers[0];
     }
 }
 

@@ -1,22 +1,25 @@
 import { Request, Response } from "express";
 import {CreateUserService} from '../../services/CreateUserService';
+import {v4 as uuid} from 'uuid';
 
 class CreateUserController{
-    handle(req: Request, res: Response){
+    async handle(req: Request, res: Response){
 
-        const {name, email} = req.body;
+            const {name, email} = req.body;
 
-        if (name.length === 0 || email.length === 0){
-            return res.status(400).json({
-                message: "Name or email is required"
-            });
-        }
+            if (!name || /^\s*$/.test(name)){
+                return res.status(400).json({
+                    message: "Name is required"
+                });
+            }
 
-        const createUserService = new CreateUserService();
+            const id = uuid();
+            
+            const createUserService = new CreateUserService();
 
-        const user = createUserService.execute({name, email});
+            const user = await createUserService.execute({id, name, email});
 
-        return res.status(201).json(user);
+            return res.status(201).json(user);
     }
 }
 
