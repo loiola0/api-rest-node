@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import {CreateUserService} from '../../services/CreateUserService';
 import {v4 as uuid} from 'uuid';
 
